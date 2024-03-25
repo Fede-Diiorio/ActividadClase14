@@ -1,6 +1,7 @@
 const StudentManager = require('../services/StudentManager');
 const { Router } = require('express');
 const router = Router();
+const { Student } = require('../models');
 
 const manager = new StudentManager(`${__dirname}/../../assets/students.json`)
 
@@ -26,9 +27,15 @@ router.post('/', async (req, res) => {
         }
 
         await manager.addStudent(name, lastname, age, dni, course, note);
-        // const newStudent = await 
-    } catch {
-
+        const newStudent = await Student.create({ name, lastname, age, dni, course, note });
+        res.status(200).json({ result: 'Success', status: 'Guardado en el archivo', student: newStudent });
+    } catch (err) {
+        res.status(500).json({
+            result: 'Error',
+            status: err.message
+        });
     }
 
 })
+
+module.exports = router;

@@ -15,7 +15,7 @@ class StudentManager {
 
     async #readFile() {
         try {
-            const fileData = await fs.readFile(this.path, 'utf-8');
+            const fileData = await fs.promises.readFile(this.path, 'utf-8');
             this.#students = JSON.parse(fileData);
             this.#updateLastLocalStudentId()
         } catch (err) {
@@ -24,11 +24,15 @@ class StudentManager {
     }
 
     #getNewId() {
-        return this.#lastProductId++;
+        return this.#lastLocalStudentId++;
     }
 
     async #saveFile() {
-        await fs.watchFile(this.path, JSON.stringify(this.#students, null, 2), 'utf-8');
+        try {
+            await fs.promises.writeFile(this.path, JSON.stringify(this.#students, null, 2), 'utf-8');
+        } catch (err) {
+            console.error('Error al guardar el archivo:', err);
+        }
     }
 
     async #updateLastLocalStudentId() {
@@ -43,7 +47,7 @@ class StudentManager {
             const fileContent = await fs.readFile(this.path, 'utf-8');
             const existingStudents = JSON.parse(fileContent);
             return existingStudents;
-        } catch {
+        } catch (err) {
             return [];
         }
     }
