@@ -14,7 +14,21 @@ router.get('/', async (_, res) => {
 })
 
 router.post('/', async (req, res) => {
-    const { name, lastname, age, dni, course, note } = req.body;
-    await manager.addStudent(name, lastname, age, dni, course, note);
+    try {
+        const { name, lastname, age, dni, course, note } = req.body;
+
+        if (!name || !lastname || !age || !dni || !course || !note) {
+            res.status(400).json({
+                result: 'Error',
+                message: 'Debe completar todos los campos.'
+            });
+            return;
+        }
+
+        await manager.addStudent(name, lastname, age, dni, course, note);
+        // const newStudent = await 
+    } catch {
+
+    }
 
 })
