@@ -1,4 +1,3 @@
-const { error } = require('console');
 const fs = require('fs');
 
 class StudentManager {
@@ -62,22 +61,30 @@ class StudentManager {
     async addStudent(name, lastname, age, dni, course, note) {
         try {
             if (!name || !lastname || !dni || !course) {
-                throw new Error('Debe completar todos los campos');
+                throw new Error('Debe completar todos los campos.');
             }
 
             const numericAge = parseInt(age);
             const numericNote = parseFloat(note);
 
             if (numericAge <= 6 || numericNote <= 0) {
-                throw new Error('Hubo un problema al ingresar la edad o la nota')
+                throw new Error('Hubo un problema al ingresar la edad o la nota.')
             }
 
-            const student = { id: this.#getNewId(), name, lastname, age: numericAge, dni, course, note: numericNote };
-            this.#students.push(student);
-            await this.#saveFile();
-            console.log('Estudiante agregado de manera correcta')
+            const existingStudents = await this.getStudents();
+            const findStudentDni = existingStudents.find(el => el.din === dni)
+
+            if (!findStudentDni) {
+                const student = { id: this.#getNewId(), name, lastname, age: numericAge, dni, course, note: numericNote };
+                this.#students.push(student);
+                await this.#saveFile();
+                console.log('Estudiante agregado de manera correcta')
+            } else {
+                throw new Error('Ya existe un estudiante con ese DNI.')
+            }
+
         } catch {
-            throw new Error('Hubo un error al agregar un estudiante')
+            throw new Error('Hubo un error al agregar un estudiante.')
         }
     }
 }
