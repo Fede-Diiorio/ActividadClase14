@@ -1,9 +1,7 @@
-const StudentManager = require('../services/StudentManager');
 const { Router } = require('express');
 const router = Router();
 const { Student } = require('../models');
 
-const manager = new StudentManager(`${__dirname}/../../assets/students.json`)
 
 router.get('/', async (_, res) => {
     try {
@@ -26,7 +24,6 @@ router.post('/', async (req, res) => {
             return;
         }
 
-        await manager.addStudent(name, lastname, age, dni, course, note);
         const newStudent = await Student.create({ name, lastname, age, dni, course, note });
         res.status(200).json({ result: 'Success', status: 'Guardado en el archivo', student: newStudent });
     } catch (err) {
@@ -37,5 +34,26 @@ router.post('/', async (req, res) => {
     }
 
 })
+
+router.put('/:dni', async (req, res) => {
+    const { name, lastname, age, dni, course, note } = req.body;
+    try {
+        const studentDni = req.params.dni;
+        const fieldsToUpdate = { name, lastname, age, course, note };
+
+        // Verificar si al menos un campo está presente para actualizar
+        const areFieldsPresent = Object.values(fieldsToUpdate).some(field => field !== undefined);
+
+        if (!areFieldsPresent) {
+            return res.status(400).json({ result: 'Error', message: 'No se proporcionaron campos para actualizar.' });
+        }
+
+        const updateStudent = await Student.updateOne({ 'dni': studentDni }, { $set: fieldsToUpdate });
+        res.status(200).json({ result: 'Success', status: 'Datos actualizados', student: updateStudent });
+    } catch (err) {
+        res.status(500).json({ result: 'Error', status: err.message });
+    }
+});
+
 
 module.exports = router;

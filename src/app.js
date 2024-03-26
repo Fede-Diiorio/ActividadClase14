@@ -9,14 +9,14 @@ app.use(express.static(`${__dirname}/../public`));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use('/api/student', studentRouter);
+app.use('/api/students', studentRouter);
 
 const main = async () => {
 
     await mongoose.connect(
         'mongodb+srv://FedeDiiorio:EatnQEgmFMs8oxtY@clusterfede.lnfsj8w.mongodb.net/?retryWrites=true&w=majority&appName=ClusterFede',
         {
-            dbName: 'Colegio'
+            dbName: 'School'
         }
     )
 
