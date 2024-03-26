@@ -2,11 +2,26 @@ const { Router } = require('express');
 const router = Router();
 const { Student } = require('../models');
 
-
 router.get('/', async (_, res) => {
     try {
-        const students = await manager.getStudents();
-        res.status(200).json(students);
+        const studentsDb = await Student.find();
+
+        const studentsData = studentsDb.map(std => ({
+            lastname: std.lastname,
+            name: std.name,
+            dni: std.dni,
+            age: std.age,
+            course: std.course,
+            note: std.note
+        }));
+
+        // res.json(studentsData);
+
+        res.render('home', {
+            students: studentsData,
+            style: ['styles.css']
+        });
+
     } catch (err) {
         res.status(500).json({ Error: err });
     }
@@ -41,7 +56,6 @@ router.put('/:dni', async (req, res) => {
         const studentDni = req.params.dni;
         const fieldsToUpdate = { name, lastname, age, course, note };
 
-        // Verificar si al menos un campo está presente para actualizar
         const areFieldsPresent = Object.values(fieldsToUpdate).some(field => field !== undefined);
 
         if (!areFieldsPresent) {

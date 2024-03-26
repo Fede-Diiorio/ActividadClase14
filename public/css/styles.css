@@ -1,0 +1,42 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    text-align: center;
+    background-color: darkred;
+    padding-bottom: 2rem;
+}
+
+.header h1 {
+    padding: 2rem;
+}
+
+.button {
+    padding: 1rem .5rem;
+    background-color: grey;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.alumnos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    max-width: 70vw;
+    margin: 1rem auto;
+}
+
+.alumnos__alumno {
+    border: 1px solid grey;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.alumnos__alumno h4 {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+    font-weight: normal;
+}

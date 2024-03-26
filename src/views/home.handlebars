@@ -1,0 +1,13 @@
+<div class="alumnos">
+    {{#each students}}
+    <div class="alumnos__alumno">
+        <h4><strong>{{lastname}}</strong>, {{name}}</h4>
+        <div class="alumnos__info">
+            <p><strong>DNI:</strong> {{dni}}</p>
+            <p><strong>Edad:</strong> {{age}}</p>
+            <p><strong>Curso:</strong> {{course}}</p>
+            <p><strong>Nota:</strong> {{note}}</p>
+        </div>
+    </div>
+    {{/each}}
+</div>

@@ -2,6 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose')
 const app = express();
 const studentRouter = require('./routes/student.router');
+const handlebars = require('express-handlebars');
+
+// Configuración de handlebars
+app.engine('handlebars', handlebars.engine());
+app.set('views', `${__dirname}/views`);
+app.set('view engine', 'handlebars');
 
 app.use(express.static(`${__dirname}/../public`));
 

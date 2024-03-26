@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{#each style}}
+    <link rel="stylesheet" href="/css/{{this}}">
+    {{/each}}
+    <title>Colegio</title>
+</head>
+
+<body>
+    <header class="header">
+        <h1>Colegio</h1>
+        <nav class="nav">
+            <ul>
+                <li><a class="button" href="">Agregar Alumno</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    {{{body}}}
+</body>
+
+</html>
