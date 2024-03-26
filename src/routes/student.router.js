@@ -55,5 +55,14 @@ router.put('/:dni', async (req, res) => {
     }
 });
 
+router.delete('/:dni', async (req, res) => {
+    try {
+        const studentDni = req.params.dni;
+        await Student.deleteOne({ "dni": studentDni });
+        res.status(200).json({ result: 'Success', message: 'El estudiante fue eliminado.' })
+    } catch (err) {
+        es.status(500).json({ error: 'Error al eliminar el producto.' });
+    }
+})
 
 module.exports = router;
